@@ -65,8 +65,8 @@ public class TestAppStartLogger  {
             targetFile.createNewFile();
         }
 
-
-        AppStartLogger.logToFile("D:\\test\\gdflbd\\1223test\\1.log",1595309484329L,"test");
+        AppStartLogger appStartLogger = new AppStartLogger();
+        appStartLogger.logToFile("D:\\test\\gdflbd\\1223test\\1.log",1595309484329L,"test");
 
     }
 }

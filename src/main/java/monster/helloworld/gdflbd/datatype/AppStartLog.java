@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import monster.helloworld.gdflbd.constants.GdflbdConstant;
 
 import java.util.LinkedHashMap;
-import java.util.Random;
 
 /**
  * 模拟生成 App 启动日志
@@ -12,9 +11,8 @@ import java.util.Random;
  */
 public class AppStartLog implements DataType {
 
-    private static final Random random = new Random();
-
-    public static String getLogMessage(long timeStamp, int lastID, boolean isNewDevice) {
+    @Override
+    public String getLogMessage(long timeStamp, int lastID, boolean isNewDevice) {
 
         LinkedHashMap<String, Object> appActiveMap = new LinkedHashMap<>();
         appActiveMap.put("name", "app_active");
@@ -45,20 +43,20 @@ public class AppStartLog implements DataType {
         return JSON.toJSONString(messageMap);
     }
 
-    private static String getEntry() {
+    private String getEntry() {
         return Integer.toString(random.nextInt(2) + 1);
     }
 
-    private static String getAction() {
+    private String getAction() {
         return Integer.toString(random.nextInt(2));
     }
 
-    private static String randomCity(int id) {
+    private String randomCity(int id) {
         int i = Integer.toHexString(id).hashCode() % GdflbdConstant.CITY_ARRAY.length;
         return GdflbdConstant.CITY_ARRAY[i];
     }
 
-    private static int getID(int lastID, boolean isNewDevice) {
+    private int getID(int lastID, boolean isNewDevice) {
         if (isNewDevice) {
             // 新设备（用户），返回 lastID + 1
             return lastID + 1;
@@ -68,11 +66,11 @@ public class AppStartLog implements DataType {
         }
     }
 
-    private static String getAppVersion() {
+    private String getAppVersion() {
         return "1.1." + random.nextInt(20);
     }
 
-    private static String getOSType() {
+    private String getOSType() {
         if (random.nextInt(100) < 15) {
             // 模拟苹果手机版本
             return random.nextInt(10) + 4
@@ -86,14 +84,14 @@ public class AppStartLog implements DataType {
         }
     }
 
-    private static String getChannel() {
+    private String getChannel() {
         return new StringBuilder()
                 .append((char) (random.nextInt(26) + 65))
                 .append((char) (random.nextInt(26) + 65))
                 .toString();
     }
 
-    private static String getBrand(int id) {
+    private String getBrand(int id) {
         int i = Integer.toHexString(id).hashCode() % GdflbdConstant.SMART_PHONE_BRANDS.length;
         return GdflbdConstant.SMART_PHONE_BRANDS[i];
     }

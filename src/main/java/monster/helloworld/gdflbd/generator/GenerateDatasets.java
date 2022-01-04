@@ -1,9 +1,8 @@
-package monster.helloworld.gdflbd.LogBuilder;
+package monster.helloworld.gdflbd.generator;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import monster.helloworld.gdflbd.constants.GdflbdConstant;
-import monster.helloworld.gdflbd.logger.AppStartLogger;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,11 +33,17 @@ public class GenerateDatasets {
 
         int lastID = getLastID(dataScale.toLowerCase()); // 初始化 lastID 的值
 
-        // 准备目录
-        File targetFolder = new File(targetPath);
-        if (!targetFolder.exists()) {
-            targetFolder.mkdirs();
+        // 通过反射创建 不同数据集类型 的 Generator
+        Class dataTypeClass = null;
+        try {
+            dataTypeClass = Class.forName("monster.helloworld.gdflbd.generator." + dateType + "Generator");
+            // System.out.println(dataTypeClass);
+        } catch (ClassNotFoundException e) {
+            logger.severe("创建数据集类型对象出错！");
+            e.printStackTrace();
+            System.exit(99);
         }
+
 
         // 每次循环，生成一天的数据集
         for (int i = 0; i < daysQuantity; i++) {
@@ -87,24 +92,37 @@ public class GenerateDatasets {
 
                 String logMessage = "";
                 try {
-                    // 通过反射创建不同的 数据集类型 对象，调用相应的方法，获取 logMessage（日志主体）
-                    Class dataTypeClass = Class.forName("monster.helloworld.gdflbd.datatype." + dateType);
+                    // 通过反射调用相应的方法，获取 logMessage（日志主体）
                     Method getLogMessage =
                             dataTypeClass.getDeclaredMethod("getLogMessage", long.class, int.class, boolean.class);
                     logMessage =
                             (String) getLogMessage.invoke(dataTypeClass, startTime, lastID, isNewDevice);
                     System.out.println(logMessage);
 
-
-                } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-                    logger.severe("创建数据集类型对象出错！");
+                } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+                    logger.severe("获取 logMessage 出错！");
                     e.printStackTrace();
+                    System.exit(99);
                 }
 
                 // 输出到目标日志文件
-                AppStartLogger.logToFile(targetFile.getPath(), startTime, logMessage);
+                try {
+                    // 通过反射调用相应的方法，将 logMessage（日志主体）输出到日志文件
+                    Method logToFile =
+                            dataTypeClass.getDeclaredMethod("logToFile", String.class, long.class, String.class);
+                    logToFile.invoke(dataTypeClass, targetFile.getPath(), startTime, logMessage);
 
-                // break; // 开发测试，每天只写一条
+//                    System.exit(99);
+
+                } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+                    logger.severe("输出到目标日志文件出错！");
+                    e.printStackTrace();
+                    System.exit(99);
+                }
+
+//                AppStartLogger.logToFile(targetFile.getPath(), startTime, logMessage);
+
+//                 break; // 开发测试，每天只写一条
                 // 执行步进
                 startTime = startTime + stepOn(dataScale.toLowerCase());
             }

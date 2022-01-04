@@ -4,10 +4,10 @@ import java.io.IOException;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 
-public class AppStartLogger {
-    private static final Logger logger = Logger.getLogger(AppStartLogger.class.toString());
+public class AppStartLogger implements monster.helloworld.gdflbd.logger.Logger {
 
-    public static void logToFile(String logFilePath, long timeStamp, String message) {
+    @Override
+    public void logToFile(String logFilePath, long timeStamp, String message) {
         Logger loggerToFile = Logger.getLogger(AppStartLogger.class.toString());
 
 //        ConsoleHandler consoleHandler = new ConsoleHandler(); // 创建 ConsoleHandler

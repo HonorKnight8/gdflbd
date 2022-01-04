@@ -67,7 +67,7 @@ gdflbd，generate datasets for learning big data，生成用于学习大数据�
 
 
 
-### 数据集类型举例：
+### 数据集类型样本：
 
 - AppStartLog 类型
 

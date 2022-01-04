@@ -1,6 +1,6 @@
 package monster.helloworld.gdflbd.utils;
 
-import monster.helloworld.gdflbd.LogBuilder.GenerateDatasets;
+import monster.helloworld.gdflbd.generator.GenerateDatasets;
 import monster.helloworld.gdflbd.constants.GdflbdConstant;
 import monster.helloworld.gdflbd.constants.OSType;
 
