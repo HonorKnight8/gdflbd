@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 
 public class AppStartLogger implements monster.helloworld.gdflbd.logger.Logger {
 
+
     @Override
     public void logToFile(String logFilePath, long timeStamp, String message) {
         Logger loggerToFile = Logger.getLogger(AppStartLogger.class.toString());
@@ -19,7 +20,7 @@ public class AppStartLogger implements monster.helloworld.gdflbd.logger.Logger {
         try {
             fileHandler = new FileHandler(logFilePath, true);
         } catch (IOException e) {
-            logger.severe("创建写入日志文件的 Handler 出错！");
+            logger.severe("！！！创建写入日志文件的 Handler 出错！");
             e.printStackTrace();
         }
         AppStartLogFormat appStartLogFormat = new AppStartLogFormat();

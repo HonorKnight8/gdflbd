@@ -25,7 +25,7 @@ public class CheckArgs {
             logger.warning("输入的参数数量不正确，请依次输入："
                     + "\n\t ”输出路径“ "
                     + "\n\t ”生成数据集类型“ ，当前支持的数据集类型有：" + Arrays.toString(GdflbdConstant.DATA_TYPE)
-                    + "\n\t ”生成数据集规模“ ，当前支持的数据集规模有：" + Arrays.toString(GdflbdConstant.DATA_SCALE)
+                    + "\n\t ”生成数据集规模“ ，当前支持的数据集规模有：" + Arrays.toString(DataScaleUtil.DATA_SCALE)
                     + "\n\t ”起始日期“ ，格式： ”1999-01-31“"
                     + "\n\t ”生成数据集的天数“ ，范围：[2 - 2,147,483,647]"
 
@@ -42,7 +42,7 @@ public class CheckArgs {
             flag = false;
         }
         if (!checkDataScale(args[2])) {
-            logger.warning("输入的数据集规模错误，当前支持的数据集规模有：" + Arrays.toString(GdflbdConstant.DATA_SCALE));
+            logger.warning("输入的数据集规模错误，当前支持的数据集规模有：" + Arrays.toString(DataScaleUtil.DATA_SCALE));
             flag = false;
         }
         if (!checkStartDate(args[3])) {
@@ -85,7 +85,7 @@ public class CheckArgs {
     }
 
     private static Boolean checkDataScale(String dataScale) {
-        for (String str : GdflbdConstant.DATA_SCALE) {
+        for (String str : DataScaleUtil.DATA_SCALE) {
             if (str.equalsIgnoreCase(dataScale)) {
                 return true;
             }

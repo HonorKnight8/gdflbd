@@ -8,6 +8,7 @@ import java.util.Map;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import monster.helloworld.gdflbd.generator.AppStartLogOneDayThread;
 import monster.helloworld.gdflbd.generator.GenerateDatasets;
 import monster.helloworld.gdflbd.constants.GdflbdConstant;
 import monster.helloworld.gdflbd.generator.AppStartLogGenerator;
@@ -15,6 +16,11 @@ import org.junit.jupiter.api.Test;
 
 public class testClass {
 
+    @Test
+    public void test6() {
+        System.out.println(Integer.MIN_VALUE);
+        System.out.println(Integer.MAX_VALUE);
+    }
 
     @Test
     public void test5() {
@@ -43,8 +49,9 @@ public class testClass {
 
     @Test
     public void testAppStartLog() {
-
-        System.out.println(AppStartLogGenerator.getLogMessage(1595309484329L, 10000, true));
+//        AppStartLogOneDayThread appStartLogOneDayThread = new AppStartLogOneDayThread(null);
+//
+//        System.out.println(appStartLogOneDayThread.getLogMessage(1595309484329L, 10000, true));
 
 
 //        AppStartLog appStartLog1 = new AppStartLog();

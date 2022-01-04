@@ -12,7 +12,7 @@ import java.util.LinkedHashMap;
 public class AppStartLog implements DataType {
 
     @Override
-    public String getLogMessage(long timeStamp, int lastID, boolean isNewDevice) {
+    public String getLogMessage(long timeStamp, int currentID, boolean isNewDevice) {
 
         LinkedHashMap<String, Object> appActiveMap = new LinkedHashMap<>();
         appActiveMap.put("name", "app_active");
@@ -24,7 +24,7 @@ public class AppStartLog implements DataType {
         appActiveMap.put("time", timeStamp);
 
         LinkedHashMap<String, String> attrMap = new LinkedHashMap<>();
-        int id = getID(lastID, isNewDevice);
+        int id = getID(currentID, isNewDevice);
 
         attrMap.put("area", randomCity(id));
         attrMap.put("uid", Integer.toString(id));
@@ -58,8 +58,8 @@ public class AppStartLog implements DataType {
 
     private int getID(int lastID, boolean isNewDevice) {
         if (isNewDevice) {
-            // 新设备（用户），返回 lastID + 1
-            return lastID + 1;
+            // 新设备（用户），返回 lastID
+            return lastID;
         } else {
             // 旧设备（用户），返回 [1, lastID] 范围的随机数
             return random.nextInt(lastID) + 1;

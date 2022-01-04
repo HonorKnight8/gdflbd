@@ -39,7 +39,7 @@ public class GenerateDatasets {
             dataTypeClass = Class.forName("monster.helloworld.gdflbd.generator." + dateType + "Generator");
             // System.out.println(dataTypeClass);
         } catch (ClassNotFoundException e) {
-            logger.severe("创建数据集类型对象出错！");
+            logger.severe("！！！创建数据集类型对象出错！");
             e.printStackTrace();
             System.exit(99);
         }
@@ -68,7 +68,7 @@ public class GenerateDatasets {
                 try {
                     targetFile.createNewFile();
                 } catch (IOException e) {
-                    logger.severe("创建目标文件出错！");
+                    logger.severe("！！！创建目标文件出错！");
                     e.printStackTrace();
                 }
             }
@@ -100,7 +100,7 @@ public class GenerateDatasets {
                     System.out.println(logMessage);
 
                 } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-                    logger.severe("获取 logMessage 出错！");
+                    logger.severe("！！！获取 logMessage 出错！");
                     e.printStackTrace();
                     System.exit(99);
                 }
@@ -115,7 +115,7 @@ public class GenerateDatasets {
 //                    System.exit(99);
 
                 } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-                    logger.severe("输出到目标日志文件出错！");
+                    logger.severe("！！！输出到目标日志文件出错！");
                     e.printStackTrace();
                     System.exit(99);
                 }
@@ -141,7 +141,7 @@ public class GenerateDatasets {
      * @param dataScale
      * @return
      */
-    private static long stepOn(String dataScale) {
+    private static int stepOn(String dataScale) {
 
         int stepInterval = random.nextInt(10) + 81;
 

@@ -16,8 +16,6 @@ public class GdflbdConstant {
 //             , "EventLog"
     };
 
-    // 数据集规模
-    public static final String[] DATA_SCALE = new String[]{"Tiny", "Small", "Medium", "Large", "Huge"};
 
     // 城市列表（377个，https://github.com/cn/GB2260）
     public static final String[] CITY_ARRAY = new String[]{

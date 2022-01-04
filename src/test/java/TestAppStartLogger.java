@@ -33,7 +33,7 @@ public class TestAppStartLogger  {
         // myLogger.addHandler(fileHandler);
 
         appStartLogFormat.setTimeStamp(1595299643027L);
-        myLogger.severe("{SERVER|严重 级别}");
+        myLogger.severe("！！！{SERVER|严重 级别}");
         appStartLogFormat.setTimeStamp(1595309484329L);
         myLogger.warning("{WARN|警告 级别}");
         appStartLogFormat.setTimeStamp(1595299643027L);
