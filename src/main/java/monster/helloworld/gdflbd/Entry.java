@@ -3,6 +3,7 @@ package monster.helloworld.gdflbd;
 import monster.helloworld.gdflbd.utils.ArgsUtils;
 
 import java.io.File;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -28,22 +29,27 @@ public class Entry {
                 targetFolder.mkdirs();
             }
 
-            // 生成数据集的核心方法
-//            GenerateDatasets.generateData(args);
-            // 通过反射创建 "不同数据集类型" 的 Generator ，并调用其中的 generate 方法（核心方法）
+            // 通过反射创建 "不同数据集类型" 的 Generator ，并调用其中的 generate 方法（生成数据集的核心方法）
             try {
+                // 反射调用静态方法
+                // Class dataTypeClass = Class.forName("monster.helloworld.gdflbd.generator." + args[1] + "Generator");
+                // Method generate = dataTypeClass.getDeclaredMethod("generate", String[].class);
+                // generate.invoke(dataTypeClass, (Object) args);
+
+                // 反射创建对象，调用成员方法
                 Class dataTypeClass = Class.forName("monster.helloworld.gdflbd.generator." + args[1] + "Generator");
-                Method generate = dataTypeClass.getDeclaredMethod("generate", String[].class);
-                generate.invoke(dataTypeClass, (Object) args);
+                Constructor constructor = dataTypeClass.getConstructor();
+                Object object = constructor.newInstance();
+                Method generate = dataTypeClass.getMethod("generate", String[].class);
+                generate.invoke(object, (Object) args);
                 // System.out.println(dataTypeClass);
-            } catch (ClassNotFoundException | InvocationTargetException | NoSuchMethodException | IllegalAccessException e) {
+            } catch (ClassNotFoundException | InvocationTargetException | NoSuchMethodException | IllegalAccessException | InstantiationException e) {
                 logger.severe("！！！创建数据集类型对象出错！");
                 e.printStackTrace();
                 System.exit(99);
             }
         }
-
-//        System.out.println(999);
+        // System.out.println(999);
 
         // 要等所有线程结束
         long endTime = System.currentTimeMillis();

@@ -78,7 +78,7 @@
     </dependencies>
 
     <build>
-        <finalName>${project.artifactId}_${version}</finalName><!-- 修改编译出来的jar包名，仅为{artifactId}.jar -->
+        <finalName>${project.artifactId}_${version}</finalName> <!-- 修改编译出来的jar包名 -->
         <plugins>
 <!--            <plugin>-->
 <!--                <groupId>org.apache.maven.plugins</groupId>-->
@@ -104,7 +104,8 @@
                         </manifest>
                     </archive>
                     <descriptorRefs>
-                        <descriptorRef>_with_dependencies</descriptorRef>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                        <!-- <descriptorRef>_with_dependencies</descriptorRef> --> <!-- 第一次能用，之后不能用，报 ”Descriptor with ID '_with_dependencies' not found“ -->
                     </descriptorRefs>
                 </configuration>
                 <executions>

@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.locks.ReentrantLock;
@@ -22,6 +23,7 @@ import java.util.logging.Logger;
 public class AppStartLogOneDayThread implements Runnable {
     private static final Logger logger = Logger.getLogger(AppStartLogOneDayThread.class.toString());
     private static final Random random = new Random();
+    public static ArrayList<String> result = new ArrayList<>();
 
     private String[] params;
     private String getFileNamePrefix;
@@ -40,7 +42,12 @@ public class AppStartLogOneDayThread implements Runnable {
 
     }
 
-    // ReentrantLock reentrantLock = new ReentrantLock();  // 用于线程同步锁
+    ReentrantLock reentrantLock = new ReentrantLock();  // 用于线程同步锁
+
+//    @Override
+//    public Object call() throws Exception {
+//        return null;
+//    }
 
     @Override
     public void run() {
@@ -124,6 +131,7 @@ public class AppStartLogOneDayThread implements Runnable {
 
             // 执行步进
             currentTime = currentTime + (long) stepIntervalProportion * (random.nextInt(10) + 81);
+            // reentrantLock.unlock();
             // break; // 开发测试，每天只写一条
         }
 
@@ -133,8 +141,14 @@ public class AppStartLogOneDayThread implements Runnable {
 //        } catch (InterruptedException e) {
 //            e.printStackTrace();
 //        }
+
         // 线程工作完成
         logger.info("___线程：“" + thread.getName() + "” 工作结束。");
+        // 写入 ”完成“ 标记
+        reentrantLock.lock();
+        result.add(thread.getName());
+        //notifyAll();
+        reentrantLock.unlock();
     }
 
     private boolean simulateNewDeviceOrNot(int remainingCount, int totalCount, long remainingTime) {
