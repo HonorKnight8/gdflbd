@@ -5,46 +5,62 @@ import com.alibaba.fastjson.JSONObject;
 import monster.helloworld.gdflbd.constants.GdflbdConstant;
 import monster.helloworld.gdflbd.datatype.AppStartLog;
 import monster.helloworld.gdflbd.logger.AppStartLogger;
+import monster.helloworld.gdflbd.utils.DataScaleUtil;
 
 import java.io.File;
 import java.io.IOException;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Logger;
 
+/**
+ * 一个线程负责一天的日志输出
+ */
 public class AppStartLogOneDayThread implements Runnable {
     private static final Logger logger = Logger.getLogger(AppStartLogOneDayThread.class.toString());
+    private static final Random random = new Random();
 
     private String[] params;
+    private String getFileNamePrefix;
 
     public AppStartLogOneDayThread(String[] params) {
         this.params = params;
+
+        // 获取文件名前缀
+        // System.out.println(GdflbdConstant.FILE_NAME_PREFIX_JSON);
+        JSONObject jsonObject = JSON.parseObject(GdflbdConstant.FILE_NAME_PREFIX_JSON);
+        Map<String, Object> innerMap = jsonObject.getInnerMap();
+        // System.out.println(innerMap);
+        getFileNamePrefix = innerMap.get(params[1]).toString();
+        innerMap = null;
+        jsonObject = null;
+
     }
 
-    ReentrantLock reentrantLock = new ReentrantLock();  // 用于线程同步锁
+    // ReentrantLock reentrantLock = new ReentrantLock();  // 用于线程同步锁
 
     @Override
-    public synchronized void run() {
+    public void run() {
         Thread thread = Thread.currentThread(); // 本线程对象，用于控制台输出提示信息
         thread.setName("Thread:" + params[3]);
         // 线程开始工作
         logger.info("___线程：“" + thread.getName() + "” 开始工作...");
 
-        System.out.println(Arrays.toString(params));
+        // System.out.println(Arrays.toString(params));
         // [D:\test\gdflbd\0104test\m, AppStartLog, huge, 2022-01-05, 12, 1973703, 2075699]
 
         String targetPath = params[0];      // 输出路径
         String dateType = params[1];        // 数据集类型
-        // String dataScale = params[2];       // 数据集规模
+        String dataScale = params[2];       // 数据集规模
         LocalDate localDate = LocalDate.parse(params[3]);       // “起始日期”
         int lastIDYesterday = Integer.parseInt(params[4]);       // 昨天的最大会员ID
         int lastIDToday = Integer.parseInt(params[5]);           // 今天的最大会员ID
         int totalCount = lastIDToday - lastIDYesterday;
         // System.out.println(" " + lastIDYesterday + " " + lastIDToday + " " + totalCount);
-        // System.exit(99);
+
         // 当天凌晨 0 点
         Long startTime =
                 localDate.atStartOfDay(ZoneOffset.systemDefault()).toInstant().toEpochMilli();
@@ -56,12 +72,10 @@ public class AppStartLogOneDayThread implements Runnable {
         Instant instant = Instant.ofEpochMilli(startTime);
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MMdd");
         String fileNameDate = dateTimeFormatter.format(LocalDateTime.ofInstant(instant, ZoneId.systemDefault()));
-        // System.out.println(fileNameDate);
-
         // 创建目标文件（一天一个文件）
         File targetFile = new File(
-                targetPath + File.separator + getFileNamePrefix(dateType) + fileNameDate + ".log");
-        // System.out.println(targetFile);
+                targetPath + File.separator + getFileNamePrefix + fileNameDate + ".log");
+        // System.out.println(" " + startTime + " " + endTime + " " + fileNameDate + " " + targetFile);
         if (!targetFile.exists()) {
             try {
                 targetFile.createNewFile();
@@ -73,39 +87,44 @@ public class AppStartLogOneDayThread implements Runnable {
 
         int currentID = lastIDYesterday;
         long currentTime = startTime;
+        int stepIntervalProportion = DataScaleUtil.stepOn(dataScale.toLowerCase()); // 步进比例，不同数据集规模不同比例
+        // System.out.println(" " + currentID + " " + currentTime + " " + stepIntervalProportion);
+        // System.exit(99);
+
         while (currentTime < endTime) {
             // 执行数据集生成逻辑：每次循环，生成一条数据
-
             // System.out.println(currentTime + "|" + currentID); //测试
-            // lastIDYesterday++; //测试
+            // reentrantLock.lock();
 
+            AppStartLog appStartLog = new AppStartLog();
+            // System.out.println(appStartLog);
             String logMessage = "";
             if (currentID < lastIDToday &&
                     simulateNewDeviceOrNot(lastIDToday - currentID, totalCount, endTime - currentTime)
             ) {
                 // 模拟新设备
-                System.out.println(thread.getName() + "模拟新用户");
                 currentID++;
-                System.out.println(currentID);
-                reentrantLock.lock();
-                logMessage = getLogMessage(startTime, currentID, true);
-                reentrantLock.unlock();
-
+                // System.out.println(thread.getName() + "模拟新用户");
+                // System.out.println(currentID);
+                logMessage = appStartLog.getLogMessage(currentTime, currentID, true);
             } else {
-                System.out.println(thread.getName() + "模拟老用户");
-                reentrantLock.lock();
-                logMessage = getLogMessage(startTime, currentID, false);
-                reentrantLock.unlock();
+                // System.out.println(thread.getName() + "模拟老用户");
+                logMessage = appStartLog.getLogMessage(currentTime, currentID, false);
             }
+            appStartLog = null; // 释放资源
 
-            // System.out.println(logMessage);
-            reentrantLock.lock();
+            System.out.println(thread.getName() + " : " + logMessage);
+
             // 输出到目标日志文件
-            logToFile(targetFile.getPath(), startTime, logMessage);
-            reentrantLock.unlock();
-            break; // 开发测试，每天只写一条
+            AppStartLogger appStartLogger = new AppStartLogger(thread.getName());
+            // System.out.println(appStartLogger);
+            appStartLogger.logToFile(targetFile.getPath(), startTime, logMessage);
+            appStartLogger = null;  // 释放资源
+            logMessage = "";        // 释放资源
+
             // 执行步进
-//            startTime = startTime + DataScaleUtil.stepOn(dataScale.toLowerCase());
+            currentTime = currentTime + (long) stepIntervalProportion * (random.nextInt(10) + 81);
+            // break; // 开发测试，每天只写一条
         }
 
 //        try {
@@ -118,38 +137,7 @@ public class AppStartLogOneDayThread implements Runnable {
         logger.info("___线程：“" + thread.getName() + "” 工作结束。");
     }
 
-
-    private synchronized String getLogMessage(long startTime, int lastID, boolean isNewDevice) {
-        AppStartLog appStartLog = new AppStartLog();
-
-        String logMessage = appStartLog.getLogMessage(startTime, lastID, isNewDevice);
-
-        appStartLog = null; // 释放资源
-        return logMessage;
-    }
-
-    private synchronized void logToFile(String logFilePath, long timeStamp, String message) {
-        AppStartLogger appStartLogger = new AppStartLogger();
-        appStartLogger.logToFile(logFilePath, timeStamp, message);
-        appStartLogger = null; // 释放资源
-    }
-
-
-    /**
-     * 根据不同的数据集类型，获取相应的文件民前缀
-     *
-     * @param dataType
-     * @return
-     */
-    private synchronized String getFileNamePrefix(String dataType) {
-//        System.out.println(GdflbdConstant.FILE_NAME_PREFIX_JSON);
-        JSONObject jsonObject = JSON.parseObject(GdflbdConstant.FILE_NAME_PREFIX_JSON);
-        Map<String, Object> innerMap = jsonObject.getInnerMap();
-//        System.out.println(innerMap);
-        return innerMap.get(dataType).toString();
-    }
-
-    private synchronized boolean simulateNewDeviceOrNot(int remainingCount, int totalCount, long remainingTime) {
+    private boolean simulateNewDeviceOrNot(int remainingCount, int totalCount, long remainingTime) {
 
         // 根据 剩余新ID数量 / 当天新ID数 、 剩余时间 / 一天总时间 的比率大小
         // 前者大，则返回真，反之，则返回假
@@ -162,6 +150,5 @@ public class AppStartLogOneDayThread implements Runnable {
         } else {
             return false;
         }
-
     }
 }

@@ -27,15 +27,17 @@ public class AppStartLogGenerator {
 
             // 传入 数据集类型、规模、日期、上一天lastID，今天LastID
             String[] params = new String[args.length + 1];
-            System.arraycopy(args, 0, params, 0, args.length - 1); // 天数（最后一个元素）不要
-            // [D:\test\gdflbd\0104test\m, AppStartLog, huge, 2021-12-25, null, null]
-            params[3] =localDate.plusDays(i-1).toString();
-            params[params.length-2] = String.valueOf(lastIDs[i - 1]);
-            params[params.length-1] = String.valueOf(lastIDs[i]);
+            System.arraycopy(args, 0, params, 0, args.length - 1); // 天数（最后一个元素）用不到
+            // args：    [D:\test\gdflbd\0105test\t1, AppStartLog, tiny, 2021-12-25, 10]
+            // params：  [D:\test\gdflbd\0105test\t1, AppStartLog, tiny, 2021-12-25, 500, 558]
+            params[3] =localDate.plusDays(i-1).toString();                              // 修改日期，每个线程执行一天的生成逻辑
+            params[params.length-2] = String.valueOf(lastIDs[i - 1]);                   // 昨天的 lastID
+            params[params.length-1] = String.valueOf(lastIDs[i]);                       // 今天的 lastID
             // System.out.println(Arrays.toString(params));
             // System.exit(99);
+            AppStartLogOneDayThread appStartLogOneDayThread = new AppStartLogOneDayThread(params);
 
-            executorService.execute(new AppStartLogOneDayThread(params));
+            executorService.execute(appStartLogOneDayThread);
         }
 
         // 关闭线程池（不再接收新任务）

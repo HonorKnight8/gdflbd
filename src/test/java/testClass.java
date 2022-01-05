@@ -8,10 +8,7 @@ import java.util.Map;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import monster.helloworld.gdflbd.generator.AppStartLogOneDayThread;
-import monster.helloworld.gdflbd.generator.GenerateDatasets;
 import monster.helloworld.gdflbd.constants.GdflbdConstant;
-import monster.helloworld.gdflbd.generator.AppStartLogGenerator;
 import org.junit.jupiter.api.Test;
 
 public class testClass {
@@ -81,8 +78,7 @@ public class testClass {
 
     @Test
     public void test3() {
-        String[] strings = {"D:\\test\\gdflbd\\1222test", "AppStartLog", "Tiny", "2022-12-03", "2"};
-        GenerateDatasets.generateData(strings);
+
     }
 
     @Test

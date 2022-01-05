@@ -4,6 +4,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.*;
 
+/**
+ * 日志的格式化器，实现对日志格式的自定义输出
+ */
 public class AppStartLogFormat extends Formatter {
 
     Long timeStamp = 0L;

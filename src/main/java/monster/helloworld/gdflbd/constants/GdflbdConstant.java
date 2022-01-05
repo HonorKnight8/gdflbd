@@ -16,7 +16,6 @@ public class GdflbdConstant {
 //             , "EventLog"
     };
 
-
     // 城市列表（377个，https://github.com/cn/GB2260）
     public static final String[] CITY_ARRAY = new String[]{
             "七台河市", "三亚市", "三明市", "三门峡市", "上海市", "上饶市", "东莞市", "东营市", "中卫市", "中山市",
@@ -55,7 +54,6 @@ public class GdflbdConstant {
             "黄石市", "黑河市", "黔东南苗族侗族自治州", "黔南布依族苗族自治州", "黔西南布依族苗族自治州", "齐齐哈尔市", "龙岩市"
     };
 
-
     // 智能手机品牌
     public static final String[] SMART_PHONE_BRANDS = {
             "Alcatel", "Apple", "Honor", "Huawei", "LG", "Lenovo", "Motorola", "Nokia", "OnePlus", "Oppo",
@@ -67,5 +65,4 @@ public class GdflbdConstant {
             "\"" + DATA_TYPE[0] + "\"" + ":\"start\"" +
 //             ",\"" + DATA_TYPE[1] + "\"" + ":\"event\"" +
             "}";
-
 }

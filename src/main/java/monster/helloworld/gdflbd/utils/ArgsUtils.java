@@ -1,6 +1,5 @@
 package monster.helloworld.gdflbd.utils;
 
-import monster.helloworld.gdflbd.generator.GenerateDatasets;
 import monster.helloworld.gdflbd.constants.GdflbdConstant;
 import monster.helloworld.gdflbd.constants.OSType;
 
@@ -12,8 +11,18 @@ import java.util.logging.Logger;
 /**
  * 用于检查用户输入参数合法性
  */
-public class CheckArgs {
-    private static final Logger logger = Logger.getLogger(GenerateDatasets.class.toString());
+public class ArgsUtils {
+    private static final Logger logger = Logger.getLogger(ArgsUtils.class.toString());
+
+//    public String[] args;
+//
+//    public String[] getArgs() {
+//        return args;
+//    }
+//
+//    public void setArgs(String[] args) {
+//        this.args = args;
+//    }
 
     // 处理传入的参数：输出路径，生成数据集类型，生成数据集规模：[T,S,M,L,H] ，起始日期，生成天数
     public static Boolean checkArgs(String[] args) {

@@ -1,7 +1,5 @@
 package monster.helloworld.gdflbd.utils;
 
-import monster.helloworld.gdflbd.generator.GenerateDatasets;
-
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -11,7 +9,7 @@ import java.util.logging.Logger;
  * 生成日志数量（每日）设定为： [500，5千，2万，20万，100万]（大约）
  */
 public class DataScaleUtil {
-    private static final Logger logger = Logger.getLogger(GenerateDatasets.class.toString());
+    private static final Logger logger = Logger.getLogger(DataScaleUtil.class.toString());
     private static final Random random = new Random();
 
     // 数据集规模
@@ -84,28 +82,28 @@ public class DataScaleUtil {
     public static int stepOn(String dataScale) {
 //        step Interval Proportion
 
-        int stepInterval = random.nextInt(10) + 81;
+        int stepIntervalProportion = 0;
 
         switch (dataScale) {
             case "huge":
-                // nothing;
+                stepIntervalProportion = 1;
                 break;
             case "large":
-                stepInterval = stepInterval * 5;
+                stepIntervalProportion = 5;
                 break;
             case "medium":
-                stepInterval = stepInterval * 50;
+                stepIntervalProportion = 50;
                 break;
             case "small":
-                stepInterval = stepInterval * 200;
+                stepIntervalProportion = 200;
                 break;
             case "tiny":
-                stepInterval = stepInterval * 2000;
+                stepIntervalProportion = 2000;
                 break;
             default:
                 logger.info("数据集类型错误");
         }
 
-        return stepInterval;
+        return stepIntervalProportion;
     }
 }

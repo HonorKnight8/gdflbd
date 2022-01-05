@@ -6,7 +6,8 @@ import monster.helloworld.gdflbd.constants.GdflbdConstant;
 import java.util.LinkedHashMap;
 
 /**
- * 模拟生成 App 启动日志
+ * 日志内容的构造器，模拟生成 App 启动日志
+ * 实现自定义时间戳
  * 简单模拟：device_ID、uid、城市、手机品牌 ”绑定“ ，其余随机
  */
 public class AppStartLog implements DataType {

@@ -1,6 +1,6 @@
 package monster.helloworld.gdflbd;
 
-import monster.helloworld.gdflbd.utils.CheckArgs;
+import monster.helloworld.gdflbd.utils.ArgsUtils;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
@@ -18,7 +18,7 @@ public class Entry {
         long startTime = System.currentTimeMillis();
 
         // 检查参数合法性
-        if (!CheckArgs.checkArgs(args)) {
+        if (!ArgsUtils.checkArgs(args)) {
             logger.warning("参数不合法，请检查！");
         } else {
 
