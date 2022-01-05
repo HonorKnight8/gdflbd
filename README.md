@@ -38,32 +38,86 @@ gdflbd，generate datasets for learning big data，生成用于学习大数据�
 
 ### 测试效果及执行效率：
 
-- CentOS7，OpenJDK11 环境下：
+- 检查生成的文件行数、大小：
 
-  - ```log
-    12月 24, 2021 8:40:29 下午 monster.helloworld.gdflbd.Entry main
-    信息: [/root/gdflbd1224/test_tiny, AppStartLog, tiny, 2020-08-20, 8]
-    12月 24, 2021 8:40:29 下午 monster.helloworld.gdflbd.Entry main
-    信息: >>>总耗时：1881 毫秒
+  - ```bash
+    wc -lc ~/gdflbd0105/tiny/*
+        505  187315 /root/gdflbd0105/tiny/start0101.log
+        506  187709 /root/gdflbd0105/tiny/start0102.log
+        506  187678 /root/gdflbd0105/tiny/start0103.log
+        505  187597 /root/gdflbd0105/tiny/start0104.log
+        504  186978 /root/gdflbd0105/tiny/start0105.log
+        506  187572 /root/gdflbd0105/tiny/start0106.log
+        504  186979 /root/gdflbd0105/tiny/start0107.log
+        507  187848 /root/gdflbd0105/tiny/start1225.log
+        506  187742 /root/gdflbd0105/tiny/start1226.log
+        505  187071 /root/gdflbd0105/tiny/start1227.log
+        506  187588 /root/gdflbd0105/tiny/start1228.log
+        506  187622 /root/gdflbd0105/tiny/start1229.log
+        504  187099 /root/gdflbd0105/tiny/start1230.log
+        507  188137 /root/gdflbd0105/tiny/start1231.log
+       7077 2624935 总用量
+    
+    wc -lc ~/gdflbd0105/large/*
+        202121   75900402 /root/gdflbd0105/large/start0101.log
+        202101   75904330 /root/gdflbd0105/large/start0102.log
+        202087   75905992 /root/gdflbd0105/large/start0103.log
+        202119   75919179 /root/gdflbd0105/large/start0104.log
+        202118   75925288 /root/gdflbd0105/large/start0105.log
+        202098   75914628 /root/gdflbd0105/large/start0106.log
+        202083   75916515 /root/gdflbd0105/large/start0107.log
+        202100   75836177 /root/gdflbd0105/large/start1225.log
+        202092   75854828 /root/gdflbd0105/large/start1226.log
+        202107   75862066 /root/gdflbd0105/large/start1227.log
+        202092   75879602 /root/gdflbd0105/large/start1228.log
+        202102   75881012 /root/gdflbd0105/large/start1229.log
+        202086   75878282 /root/gdflbd0105/large/start1230.log
+        202118   75900144 /root/gdflbd0105/large/start1231.log
+       2829424 1062478445 总用量
+    
     ```
 
-- Win10，OracleJDK11 环境下：
+- CentOS7，OpenJDK1.8 环境执行效率：
 
   - ```log
-    12月 24, 2021 6:40:29 下午 monster.helloworld.gdflbd.Entry main
-    信息:[D:\test\gdflbd\1223test\t，AppStartLog,tiny，2020-08-20，14]
-    12月 24, 2021 6:40:29 下午 monster.helloworld.gdflbd.Entry main
-    信息: >>>总耗时：4950 豪秒
+    一月 05, 2022 8:09:14 下午 monster.helloworld.gdflbd.Entry main
+    信息: >>>执行参数：[/root/gdflbd0105/tiny, AppStartLog, tiny, 2021-12-25, 14]
+    一月 05, 2022 8:09:14 下午 monster.helloworld.gdflbd.Entry main
+    信息: >>>总耗时：2,197 毫秒
+    ```
+    
+  - ```log
+    一月 05, 2022 8:11:18 下午 monster.helloworld.gdflbd.Entry main
+    信息: >>>执行参数：[/root/gdflbd0105/small, AppStartLog, small, 2021-12-25, 14]
+    一月 05, 2022 8:11:18 下午 monster.helloworld.gdflbd.Entry main
+    信息: >>>总耗时：16,131 毫秒
     ```
 
   - ```log
-    12月 24, 2021 7:40:29 下午 monster.helloworld.gdflbd.Entry main
-    信息:[D:\test\gdflbd\1223test\m，AppStartLog,medium，2020-08-20，14]
-    12月 24, 2021 7:40:29 下午 monster.helloworld.gdflbd.Entry main
-    信息: >>>总耗时：1970142豪秒
+    一月 05, 2022 8:12:36 下午 monster.helloworld.gdflbd.Entry main
+    信息: >>>执行参数：[/root/gdflbd0105/medium, AppStartLog, medium, 2021-12-25, 14]
+    一月 05, 2022 8:12:36 下午 monster.helloworld.gdflbd.Entry main
+    信息: >>>总耗时：58,321 毫秒
     ```
 
-- large、huge 还没测试
+  - ```log
+    一月 05, 2022 8:31:21 下午 monster.helloworld.gdflbd.Entry main
+    信息: >>>执行参数：[/root/gdflbd0105/large, AppStartLog, large, 2021-12-25, 14]
+    一月 05, 2022 8:31:21 下午 monster.helloworld.gdflbd.Entry main
+    信息: >>>总耗时：1,104,863 毫秒
+    ```
+
+  - huge 还没跑
+
+- Win10，OracleJDK1.8，IDEA 环境下执行效率：
+
+  - ```log
+    一月 05, 2022 8:38:28 下午 monster.helloworld.gdflbd.Entry main
+    信息: >>>执行参数：[D:\test\gdflbd\0105test\medium, AppStartLog, medium, 2021-12-25, 14]
+    一月 05, 2022 8:38:28 下午 monster.helloworld.gdflbd.Entry main
+    信息: >>>总耗时：75,773 毫秒
+    ```
+
 
 
 
@@ -77,9 +131,17 @@ gdflbd，generate datasets for learning big data，生成用于学习大数据�
 
 
 
+## 日志
 
-
-
+- 2022-01-05
+  - 使用多线程，大大提高执行效率
+  - release 0.1.02
+- 2022-01-04
+  - 减少 static 方法使用，改善内存占用
+  - 更新城市列表
+- 2021-12-24
+  - 创建项目
+  - release 0.1
 
 
 
