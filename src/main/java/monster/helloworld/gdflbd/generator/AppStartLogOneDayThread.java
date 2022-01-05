@@ -125,7 +125,7 @@ public class AppStartLogOneDayThread implements Runnable {
             // 输出到目标日志文件
             AppStartLogger appStartLogger = new AppStartLogger(thread.getName());
             // System.out.println(appStartLogger);
-            appStartLogger.logToFile(targetFile.getPath(), startTime, logMessage);
+            appStartLogger.logToFile(targetFile.getPath(), currentTime, logMessage);
             appStartLogger = null;  // 释放资源
             logMessage = "";        // 释放资源
 

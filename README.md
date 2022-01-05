@@ -6,7 +6,7 @@ gdflbd，generate datasets for learning big data，生成用于学习大数据�
 
 ## 使用说明
 
-使用环境：支持 Linux 和 Windows，java 11 及以上（上传的 jar 是 v11 编译的，没测试使用 v1.8 编译的兼容性）
+使用环境：支持 Linux 和 Windows，java 1.8 及以上（ v0.1.0 的 jar 是 JDK11 编译的，后面改用 JDK1.8）
 
 命令示例：
 
@@ -31,6 +31,16 @@ gdflbd，generate datasets for learning big data，生成用于学习大数据�
 - param 5：
   - 要生成的数据集（日志）的天数
   - 范围：大于等于 2 
+
+
+
+## 数据集类型说明：
+
+- AppStartLog ，模拟 APP 启动日志，样本如下：
+
+  - ```log
+    2021-12-25 00:08:28.000 [logToFile] INFO  monster.helloworld.gdflbd.logger.AppStartLogger - {"app_active":{"name":"app_active","json":{"entry":"1","action":"0","error_code":"0"},"time":1640362108000},"attr":{"area":"大同市","uid":"478","app_v":"1.1.5","event_type":"common","device_id":"1de","os_type":"13.05","channel":"KA","language":"chinese","brand":"LG"}}
+    ```
 
 
 
@@ -119,15 +129,6 @@ gdflbd，generate datasets for learning big data，生成用于学习大数据�
     ```
 
 
-
-
-### 数据集类型样本：
-
-- AppStartLog 类型
-
-  - ```log
-    2020-08-20 23:57:40.000 [logToFile] INFO  monster.helloworld.gdflbd.logger.AppStartLogger - {"app_active":{"name":"app_active","json":{"entry":"1","action":"1","error_code":"0"},"time":1597939060000},"attr":{"area":"廊坊","uid":"382","app_v":"1.1.11","event_type":"common","device_id":"17e","os_type":"5.3.6","channel":"IG","language":"chinese","brand":"Huawei"}}
-    ```
 
 
 
