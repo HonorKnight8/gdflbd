@@ -1,4 +1,4 @@
-package monster.helloworld.gdflbd.logger;
+package monster.helloworld.gdflbd.log_and_csv.logger;
 
 public class EventLogger implements LoggerInterface {
     @Override

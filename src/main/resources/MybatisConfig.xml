@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+    <!--environments: 运行环境-->
+    <environments default="development">
+        <environment id="development">
+            <!--当前的事务事务管理器是JDBC-->
+            <transactionManager type="JDBC"></transactionManager>
+            <!--数据源信息 POOLED：使用 mybatis 的连接池-->
+            <dataSource type="POOLED">
+                <property name="driver" value="org.sqlite.JDBC"/>
+                <property name="url" value="jdbc:sqlite:D:\test\gdflbd\orderdb\devtest\sqlite_mybatis.db"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <!--引入映射配置文件-->
+    <mappers>
+        <mapper resource="mapper/UserMapper.xml"></mapper>
+    </mappers>
+
+</configuration>
+
+

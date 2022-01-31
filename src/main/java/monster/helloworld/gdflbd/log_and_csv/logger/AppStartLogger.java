@@ -1,4 +1,4 @@
-package monster.helloworld.gdflbd.logger;
+package monster.helloworld.gdflbd.log_and_csv.logger;
 
 import java.io.IOException;
 import java.util.logging.FileHandler;

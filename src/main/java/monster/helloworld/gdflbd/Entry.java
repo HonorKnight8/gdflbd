@@ -1,6 +1,6 @@
 package monster.helloworld.gdflbd;
 
-import monster.helloworld.gdflbd.utils.ArgsUtils;
+import monster.helloworld.gdflbd.utils.ArgsUtil;
 
 import java.io.File;
 import java.lang.reflect.Constructor;
@@ -19,7 +19,14 @@ public class Entry {
         long startTime = System.currentTimeMillis();
 
         // 检查参数合法性
-        if (!ArgsUtils.checkArgs(args)) {
+//        ArgsUtils argsUtils = ArgsUtils.getParams(args);
+//        String[] params = argsUtils.getParams();
+//        System.out.println(Arrays.toString(params));
+//        System.out.println(Arrays.toString(args));
+//        System.out.println(ArgsUtils.checkArgs(args));
+//        System.exit(99);
+
+        if (!ArgsUtil.checkArgs(args)) {
             logger.warning("参数不合法，请检查！");
         } else {
 

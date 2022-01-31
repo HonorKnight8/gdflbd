@@ -14,6 +14,7 @@ public class GdflbdConstant {
     public static final String[] DATA_TYPE = new String[]{
             "AppStartLog"
 //             , "EventLog"
+            , "OrderDB"
     };
 
     // 城市列表（377个，https://github.com/cn/GB2260）

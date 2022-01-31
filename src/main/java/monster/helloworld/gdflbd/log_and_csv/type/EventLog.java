@@ -1,4 +1,4 @@
-package monster.helloworld.gdflbd.datatype;
+package monster.helloworld.gdflbd.log_and_csv.type;
 
 public class EventLog implements DataType{
     @Override

@@ -6,8 +6,8 @@
 
     <groupId>monster.helloworld</groupId>
     <artifactId>gdflbd</artifactId>
-<!--    <version>1.0-SNAPSHOT</version>-->
-    <version>0.1.02</version>
+    <!--    <version>1.0-SNAPSHOT</version>-->
+    <version>0.1.03</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -17,19 +17,21 @@
 
 
     <dependencies>
-        <!--        &lt;!&ndash; https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc &ndash;&gt;-->
-        <!--        <dependency>-->
-        <!--            <groupId>org.xerial</groupId>-->
-        <!--            <artifactId>sqlite-jdbc</artifactId>-->
-        <!--            <version>3.34.0</version>-->
-        <!--        </dependency>-->
 
-        <!--        &lt;!&ndash; https://mvnrepository.com/artifact/commons-dbutils/commons-dbutils &ndash;&gt;-->
-        <!--        <dependency>-->
-        <!--            <groupId>commons-dbutils</groupId>-->
-        <!--            <artifactId>commons-dbutils</artifactId>-->
-        <!--            <version>1.7</version>-->
-        <!--        </dependency>-->
+        <!-- https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc -->
+        <dependency>
+            <groupId>org.xerial</groupId>
+            <artifactId>sqlite-jdbc</artifactId>
+            <version>3.36.0.3</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+            <version>3.5.9</version>
+        </dependency>
+
 
         <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
         <dependency>
@@ -44,6 +46,7 @@
             <artifactId>junit-jupiter-api</artifactId>
             <version>5.7.2</version>
             <scope>test</scope>
+<!--            <scope>provided</scope>-->
         </dependency>
 
         <!--        &lt;!&ndash; https://mvnrepository.com/artifact/org.slf4j/slf4j-api &ndash;&gt;-->
@@ -80,19 +83,19 @@
     <build>
         <finalName>${project.artifactId}_${version}</finalName> <!-- 修改编译出来的jar包名 -->
         <plugins>
-<!--            <plugin>-->
-<!--                <groupId>org.apache.maven.plugins</groupId>-->
-<!--                <artifactId>maven-jar-plugin</artifactId>-->
-<!--                <version>3.2.0</version>-->
-<!--                <configuration>-->
-<!--                    <archive>-->
-<!--                        <manifest>-->
-<!--                            <addClasspath>true</addClasspath>-->
-<!--                            <mainClass>monster.helloworld.gdflbd.Entry</mainClass> &lt;!&ndash; 此处为主入口 &ndash;&gt;-->
-<!--                        </manifest>-->
-<!--                    </archive>-->
-<!--                </configuration>-->
-<!--            </plugin>-->
+            <!--            <plugin>-->
+            <!--                <groupId>org.apache.maven.plugins</groupId>-->
+            <!--                <artifactId>maven-jar-plugin</artifactId>-->
+            <!--                <version>3.2.0</version>-->
+            <!--                <configuration>-->
+            <!--                    <archive>-->
+            <!--                        <manifest>-->
+            <!--                            <addClasspath>true</addClasspath>-->
+            <!--                            <mainClass>monster.helloworld.gdflbd.Entry</mainClass> &lt;!&ndash; 此处为主入口 &ndash;&gt;-->
+            <!--                        </manifest>-->
+            <!--                    </archive>-->
+            <!--                </configuration>-->
+            <!--            </plugin>-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>

@@ -1,4 +1,4 @@
-package monster.helloworld.gdflbd.datatype;
+package monster.helloworld.gdflbd.log_and_csv.type;
 
 import com.alibaba.fastjson.JSON;
 import monster.helloworld.gdflbd.constants.GdflbdConstant;
