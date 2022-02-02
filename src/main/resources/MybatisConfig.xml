@@ -4,25 +4,35 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 
 <configuration>
+    <!-- 加载数据库配置 -->
+    <properties resource="jdbc.properties"/>
 
-    <!--environments: 运行环境-->
+    <!-- 打印sql日志 -->
+<!--    <settings>-->
+<!--        <setting name="logImpl" value="STDOUT_LOGGING"/>-->
+<!--    </settings>-->
+
+    <!-- 指定整个包下的类都是别名 -->
+    <typeAliases>
+        <package name="monster.helloworld.gdflbd.domain"/>
+    </typeAliases>
+
+    <!-- environments: 运行环境 -->
     <environments default="development">
         <environment id="development">
-            <!--当前的事务事务管理器是JDBC-->
-            <transactionManager type="JDBC"></transactionManager>
-            <!--数据源信息 POOLED：使用 mybatis 的连接池-->
+            <!-- 当前的事务事务管理器是 JDBC -->
+            <transactionManager type="JDBC"/>
+            <!-- 数据源类型 POOLED：使用mybatis的连接池 -->
             <dataSource type="POOLED">
-                <property name="driver" value="org.sqlite.JDBC"/>
-                <property name="url" value="jdbc:sqlite:D:\test\gdflbd\orderdb\devtest\sqlite_mybatis.db"/>
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url" value="${jdbc.url}"/>
             </dataSource>
         </environment>
     </environments>
 
-    <!--引入映射配置文件-->
+    <!-- 引入映射配置文件 -->
     <mappers>
-        <mapper resource="mapper/UserMapper.xml"></mapper>
+        <mapper resource="mapper/OrderMapper.xml"/>
     </mappers>
 
 </configuration>
-
-

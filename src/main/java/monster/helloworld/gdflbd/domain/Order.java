@@ -4,11 +4,12 @@ public class Order {
     private Integer id;
     private Integer orderId;
     private Integer userId;
-    private Integer billId;
+    // private Integer billId; // 这里不需要 billId ，应该是 bill 表里面有 orderId
     private Float totalMoney;
     private Integer areaId;
     private Integer tradeSrc;
     private Integer payStatus;
+    private Integer orderLifeCycle;
     private Integer orderStatus;
     private String createTime;
     private String payTime;
@@ -20,11 +21,11 @@ public class Order {
                 "id=" + id +
                 ", orderId=" + orderId +
                 ", userId=" + userId +
-                ", billId=" + billId +
                 ", totalMoney=" + totalMoney +
                 ", areaId=" + areaId +
                 ", tradeSrc=" + tradeSrc +
                 ", payStatus=" + payStatus +
+                ", orderLifeCycle=" + orderLifeCycle +
                 ", orderStatus=" + orderStatus +
                 ", createTime='" + createTime + '\'' +
                 ", payTime='" + payTime + '\'' +
@@ -54,14 +55,6 @@ public class Order {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
-    }
-
-    public Integer getBillId() {
-        return billId;
-    }
-
-    public void setBillId(Integer billId) {
-        this.billId = billId;
     }
 
     public Float getTotalMoney() {
@@ -98,6 +91,14 @@ public class Order {
 
     public Integer getOrderStatus() {
         return orderStatus;
+    }
+
+    public Integer getOrderLifeCycle() {
+        return orderLifeCycle;
+    }
+
+    public void setOrderLifeCycle(Integer orderLifeCycle) {
+        this.orderLifeCycle = orderLifeCycle;
     }
 
     public void setOrderStatus(Integer orderStatus) {

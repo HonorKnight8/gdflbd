@@ -26,7 +26,7 @@ public class AppStartLogOneDayThread implements Runnable {
     public static ArrayList<String> result = new ArrayList<>();
 
     private String[] params;
-    private String getFileNamePrefix;
+    private String fileNamePrefix;
 
     public AppStartLogOneDayThread(String[] params) {
         this.params = params;
@@ -36,7 +36,7 @@ public class AppStartLogOneDayThread implements Runnable {
         JSONObject jsonObject = JSON.parseObject(GdflbdConstant.FILE_NAME_PREFIX_JSON);
         Map<String, Object> innerMap = jsonObject.getInnerMap();
         // System.out.println(innerMap);
-        getFileNamePrefix = innerMap.get(params[1]).toString();
+        fileNamePrefix = innerMap.get(params[1]).toString();
         innerMap = null;
         jsonObject = null;
 
@@ -81,7 +81,7 @@ public class AppStartLogOneDayThread implements Runnable {
         String fileNameDate = dateTimeFormatter.format(LocalDateTime.ofInstant(instant, ZoneId.systemDefault()));
         // 创建目标文件（一天一个文件）
         File targetFile = new File(
-                targetPath + File.separator + getFileNamePrefix + fileNameDate + ".log");
+                targetPath + File.separator + fileNamePrefix + fileNameDate + ".log");
         // System.out.println(" " + startTime + " " + endTime + " " + fileNameDate + " " + targetFile);
         if (!targetFile.exists()) {
             try {

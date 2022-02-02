@@ -1,3 +1,5 @@
+package monster.hellworld;
+
 import monster.helloworld.gdflbd.log_and_csv.logger.AppStartLogFormat;
 import monster.helloworld.gdflbd.log_and_csv.logger.AppStartLogger;
 import org.junit.jupiter.api.Test;

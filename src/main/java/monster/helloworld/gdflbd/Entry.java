@@ -53,10 +53,9 @@ public class Entry {
             } catch (ClassNotFoundException | InvocationTargetException | NoSuchMethodException | IllegalAccessException | InstantiationException e) {
                 logger.severe("！！！创建数据集类型对象出错！");
                 e.printStackTrace();
-                System.exit(99);
+                // System.exit(99);
             }
         }
-        // System.out.println(999);
 
         // 要等所有线程结束
         long endTime = System.currentTimeMillis();

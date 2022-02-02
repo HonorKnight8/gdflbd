@@ -10,6 +10,6 @@ public interface OrderDao {
     List<Order> selectAll();
     Order selectById(Integer id);
     Integer deleteById(Integer id);
-    Integer update(Order order);
     Integer insert(Order order);
+    Order getLastOrderID();
 }

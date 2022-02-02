@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="monster.helloworld.gdflbd.dao.OrderDao">
+
+    <update id="dropTable">
+        DROP TABLE IF EXISTS orders;
+    </update>
+
+    <update id="createTable">
+        CREATE TABLE IF NOT EXISTS orders(
+            `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, -- 记录id
+            `orderId` bigint(11) NOT NULL, --  订单id
+            `userId` bigint(11) NOT NULL, -- 用户id
+            `totalMoney` decimal(11,2) NOT NULL, -- 订单总金额（实付）
+            `areaId` int(11) NOT NULL, -- 区域最低一级id
+            `tradeSrc` tinyint(4) NOT NULL DEFAULT 0, -- 订单来源,0:网页商城,1:微信小程序,2:安卓App,3:苹果App
+            `payStatus` tinyint(4) NOT NULL DEFAULT 0, -- 支付状态,0:未支付;1:已支付，2:已退款
+            `orderLifeCycle` tinyint(4) NOT NULL DEFAULT 1,
+            -- 订单生命周期, 1:下单,2:下单后取消,4:超时取消,5:支付,6:支付后取消,7:发货,8:发货后取消,10:投递失败退回,12:拒收，13:收货,
+            -- 14:收货后取消,15:确认收货,16:退货,17:过了退货期(最终完成)
+            -- 偶数是取消或退货（对应下面的无效订单），17 是最终完成的订单，其他是执行中的订单
+            `orderStatus` tinyint(4) NOT NULL DEFAULT 0 , -- 订单状态，0:执行中（有效），1:完成（有效）,2:取消或退货（无效）
+            `createTime` varchar(25) NOT NULL, -- 下单时间
+            `payTime` varchar(25) DEFAULT '0000-00-00 00:00:00:000' NOT NULL, -- 支付时间
+            `modifiedTime` varchar(25) DEFAULT '0000-00-00 00:00:00:000' NOT NULL -- 订单更新时间
+        );
+    </update>
+
+    <select id="selectAll" resultType="Order">
+        select * from orders;
+    </select>
+
+    <select id="selectById" resultType="Order">
+        select * from orders
+        where id = #{id};
+    </select>
+
+    <delete id="deleteById">
+        delete from orders
+        where id = #{id};
+    </delete>
+
+    <insert id="insert" useGeneratedKeys="true">
+        insert into orders (
+            orderId, userId, totalMoney, areaId,
+            tradeSrc, payStatus, orderLifeCycle, orderStatus, createTime, payTime, modifiedTime)
+        values (
+            #{orderId}, #{userId}, #{totalMoney}, #{areaId},
+            #{tradeSrc}, #{payStatus}, #{orderLifeCycle}, #{orderStatus}, #{createTime}, #{payTime}, #{modifiedTime});
+    </insert>
+
+    <!-- 获取最大的 orderId -->
+    <select id="getLastOrderID">
+        SELECT * FROM orders
+        ORDER BY orderId DESC
+        LIMIT 1;
+    </select>
+
+</mapper>
