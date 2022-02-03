@@ -46,7 +46,7 @@ public class OrderLifeCycleSimulator {
         order.setOrderLifeCycle(1); // 新建订单，下单阶段，固定值 1
         order.setOrderStatus(0); // 新建订单，执行中，固定值 0
 
-        System.out.println(createTime);
+//        System.out.println(createTime);
         String dateTimeStr = DateTimeUtil.timeStampToStr_1(createTime);
         order.setCreateTime(dateTimeStr); // 新建订单，使用传入的时间戳作为创建订单的时间
         order.setPayTime("0000-00-00 00:00:00:000"); // 新建订单，未支付，固定值 "0000-00-00 00:00:000"
@@ -123,16 +123,17 @@ public class OrderLifeCycleSimulator {
         if ((newLifeCycle % 2) == 0) {
             // 偶数是取消或退货（无效订单）
             order.setOrderStatus(2);
-        } else if (newLifeCycle >= 5) {
+        } else if (newLifeCycle == 5) {
             // 已支付的订单
             order.setPayTime(dateTimeStr);
         } else if (newLifeCycle == 17) {
             // 最终完成的订单（有效）
             order.setOrderStatus(1);
-        } else {
-            // 执行中的订单（有效）
-            order.setOrderStatus(0);
         }
+//        else {
+//            // 执行中的订单（有效）
+//            order.setOrderStatus(0);
+//        }
 
         // 必然会更新的值
         order.setModifiedTime(dateTimeStr);
