@@ -7,7 +7,7 @@
     <groupId>monster.helloworld</groupId>
     <artifactId>gdflbd</artifactId>
     <!--    <version>1.0-SNAPSHOT</version>-->
-    <version>0.1.03</version>
+    <version>0.1.04</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -81,7 +81,8 @@
     </dependencies>
 
     <build>
-        <finalName>${project.artifactId}_${version}</finalName> <!-- 修改编译出来的jar包名 -->
+<!--        <finalName>${project.artifactId}_${version}</finalName> &lt;!&ndash; 修改编译出来的jar包名 &ndash;&gt;-->
+        <finalName>${project.artifactId}_ ${project.version} </finalName> <!-- 修改编译出来的jar包名 -->
         <plugins>
             <!--            <plugin>-->
             <!--                <groupId>org.apache.maven.plugins</groupId>-->

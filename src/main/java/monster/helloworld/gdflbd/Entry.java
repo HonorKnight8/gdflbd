@@ -14,9 +14,10 @@ import java.util.logging.Logger;
  */
 public class Entry {
     private static final Logger logger = Logger.getLogger(Entry.class.toString());
+    public static final long START_TIME = System.currentTimeMillis();
 
     public static void main(String[] args) {
-        long startTime = System.currentTimeMillis();
+        ArgsUtil.params = args;
 
         // 检查参数合法性
 //        ArgsUtils argsUtils = ArgsUtils.getParams(args);
@@ -26,7 +27,7 @@ public class Entry {
 //        System.out.println(ArgsUtils.checkArgs(args));
 //        System.exit(99);
 
-        if (!ArgsUtil.checkArgs(args)) {
+        if (!ArgsUtil.checkArgs()) {
             logger.warning("参数不合法，请检查！");
         } else {
 
@@ -49,7 +50,7 @@ public class Entry {
                 Object object = constructor.newInstance();
                 Method generate = dataTypeClass.getMethod("generate", String[].class);
                 generate.invoke(object, (Object) args);
-                // System.out.println(dataTypeClass);
+                System.out.println(dataTypeClass.getName() + "完成任务");
             } catch (ClassNotFoundException | InvocationTargetException | NoSuchMethodException | IllegalAccessException | InstantiationException e) {
                 logger.severe("！！！创建数据集类型对象出错！");
                 e.printStackTrace();
@@ -57,9 +58,13 @@ public class Entry {
             }
         }
 
-        // 要等所有线程结束
-        long endTime = System.currentTimeMillis();
-        logger.info(">>>执行参数：" + Arrays.toString(args));
-        logger.info(">>>总耗时：" + (endTime - startTime) + " 毫秒");
+
+    }
+
+    public static void report(Long endTime) {
+        logger.info(">>>程序运行报告：" +
+                "\n\t执行参数：" + Arrays.toString(ArgsUtil.params) +
+                "\n\t总耗时：" + (endTime - START_TIME) + " 毫秒"
+        );
     }
 }

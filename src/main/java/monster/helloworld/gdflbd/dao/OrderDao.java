@@ -12,4 +12,5 @@ public interface OrderDao {
     Integer deleteById(Integer id);
     Integer insert(Order order);
     Order getLastOrderID();
+    Order selectByOrderId(Integer orderId);
 }

@@ -59,4 +59,13 @@
         LIMIT 1;
     </select>
 
+    <select id="selectByOrderId" resultType="Order">
+        SELECT * FROM orders
+        where orderId = #{orderId}
+        ORDER BY modifiedTime DESC
+        LIMIT 1;
+    </select>
+
+
+
 </mapper>

@@ -1,5 +1,6 @@
 package monster.helloworld.gdflbd.generator;
 
+import monster.helloworld.gdflbd.Entry;
 import monster.helloworld.gdflbd.utils.DataScaleUtil;
 
 import java.time.LocalDate;
@@ -66,6 +67,7 @@ public class AppStartLogGenerator {
 
         // 立即关闭线程池（不管是否还有未结束的任务）
         executorService.shutdownNow();
+        Entry.report(System.currentTimeMillis());
 
     }
 

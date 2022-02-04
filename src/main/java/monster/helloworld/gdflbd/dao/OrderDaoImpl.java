@@ -4,17 +4,27 @@ import monster.helloworld.gdflbd.domain.Order;
 import monster.helloworld.gdflbd.utils.MyBatisUtil;
 import org.apache.ibatis.session.SqlSession;
 
-import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.locks.ReentrantLock;
 
-public class OrderDaoImpl implements OrderDao{
+public class OrderDaoImpl implements OrderDao {
+    private final ReentrantLock reentrantLock = new ReentrantLock();  // 用于线程同步锁
 
     @Override
     public Integer createTable() {
         try (SqlSession session = MyBatisUtil.getSqlSession()) {
             OrderDao mapper = session.getMapper(OrderDao.class);
             Integer result = mapper.createTable();
-            session.commit();
+
+            reentrantLock.lock();
+            try {
+                session.commit();
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                reentrantLock.unlock();
+            }
+
             return result;
 
         }
@@ -26,7 +36,16 @@ public class OrderDaoImpl implements OrderDao{
         try (SqlSession session = MyBatisUtil.getSqlSession()) {
             OrderDao mapper = session.getMapper(OrderDao.class);
             Integer result = mapper.dropTable();
-            session.commit();
+
+            reentrantLock.lock();
+            try {
+                session.commit();
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                reentrantLock.unlock();
+            }
+
             return result;
 
         }
@@ -62,7 +81,16 @@ public class OrderDaoImpl implements OrderDao{
         try (SqlSession session = MyBatisUtil.getSqlSession()) {
             OrderDao mapper = session.getMapper(OrderDao.class);
             Integer result = mapper.deleteById(id);
-            session.commit();
+
+            reentrantLock.lock();
+            try {
+                session.commit();
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                reentrantLock.unlock();
+            }
+
             return result;
 
         }
@@ -74,7 +102,16 @@ public class OrderDaoImpl implements OrderDao{
         try (SqlSession session = MyBatisUtil.getSqlSession()) {
             OrderDao mapper = session.getMapper(OrderDao.class);
             Integer result = mapper.insert(order);
-            session.commit();
+
+            reentrantLock.lock();
+            try {
+                session.commit();
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                reentrantLock.unlock();
+            }
+
             return result;
 
         }
@@ -88,6 +125,18 @@ public class OrderDaoImpl implements OrderDao{
         try (SqlSession session = MyBatisUtil.getSqlSession()) {
             OrderDao mapper = session.getMapper(OrderDao.class);
             order = mapper.getLastOrderID();
+        }
+
+        return order;
+    }
+
+    @Override
+    public Order selectByOrderId(Integer orderId) {
+        Order order = null;
+
+        try (SqlSession session = MyBatisUtil.getSqlSession()) {
+            OrderDao mapper = session.getMapper(OrderDao.class);
+            order = mapper.selectByOrderId(orderId);
         }
 
         return order;

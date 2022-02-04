@@ -11,6 +11,8 @@ import java.util.Map;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import monster.helloworld.gdflbd.constants.GdflbdConstant;
+import monster.helloworld.gdflbd.domain.Order;
+import monster.helloworld.gdflbd.generator.OrderLifeCycleSimulator;
 import monster.helloworld.gdflbd.utils.DateTimeUtil;
 import monster.helloworld.gdflbd.utils.SqliteUtil;
 import org.junit.jupiter.api.Test;
@@ -68,10 +70,30 @@ public class testClass {
     }
 
 
+    @Test
+    public void test2() {
+        Order order = new Order();
+        order.setOrderId(1);
+        order.setUserId(1);
+        order.setTotalMoney(100.00F);
+        order.setAreaId(1);
+        order.setTradeSrc(0);
+        order.setPayStatus(0);
+        order.setOrderLifeCycle(1);
+        order.setOrderStatus(0);
+        order.setCreateTime("2022-02-02 14:28:000");
+        order.setPayTime("0000-00-00 00:00:000");
+        order.setModifiedTime("2022-02-02 14:28:000");
+        System.out.println(order);
 
+        do {
+            order = OrderLifeCycleSimulator.pushOnOrder(order, System.currentTimeMillis());
+            System.out.println(order);
+        } while (order.getOrderStatus() == 0);
+    }
 
     @Test
-    public void test1(){
+    public void test1() {
         System.out.println(DateTimeUtil.timeStampToStr_1(1595309484329L));
     }
 

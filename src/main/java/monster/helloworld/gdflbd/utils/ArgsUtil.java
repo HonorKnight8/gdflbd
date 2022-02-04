@@ -19,19 +19,19 @@ public class ArgsUtil {
     // 处理传入的参数：
     // AppStartLog 类型的参数：输出路径，生成数据集类型，生成数据集规模：[T,S,M,L,H] ，起始日期，生成天数
     // OrderDB 类型的参数：输出路径，生成数据集类型，生成数据集规模：[T,S,M,L,H] ，起始日期，生成天数
-    public static Boolean checkArgs(String[] args) {
-        params = args; // 初始化
+    public static Boolean checkArgs() {
+
         // System.out.println(Arrays.toString(args));
         Boolean flag = true;
 
         // 初步检查参数数量
-        if (args.length < 2) {
+        if (params.length < 2) {
             logger.warning("输入的参数数量过少");
             flag = false;
         }
 
         // 先检查第一个通用参数
-        if (!checkTargetPath(args[0])) {
+        if (!checkTargetPath(params[0])) {
             logger.warning("目标路径不合法！");
             flag = false;
         }
@@ -42,12 +42,12 @@ public class ArgsUtil {
 //        }
 
         // 再根据不同的数据集类型（同时检查了第二个参数），调用不同的方法，检查后面的参数
-        switch (args[1].toLowerCase()) {
+        switch (params[1].toLowerCase()) {
             case "appstartlog":
-                flag = appStartLogCheckArgs(args);
+                flag = appStartLogCheckArgs();
                 break;
             case "orderdb":
-                flag = orderDBCheckArgs(args);
+                flag = orderDBCheckArgs();
                 // System.out.println("orderdb");
                 // System.exit(99);
                 break;
@@ -60,11 +60,11 @@ public class ArgsUtil {
         return flag;
     }
 
-    private static Boolean orderDBCheckArgs(String[] args) {
+    private static Boolean orderDBCheckArgs() {
 //        System.out.println(Arrays.toString(args));
 
         // 检查参数数量
-        if (args.length != 5) {
+        if (params.length != 5) {
             logger.warning("输入的参数数量不正确，OrderDB 数据集类型需要 5 个参数："
                     + "\n\t ”输出路径“ "
                     + "\n\t ”生成数据集类型“ ：OrderDB"
@@ -77,15 +77,15 @@ public class ArgsUtil {
         }
 
 
-        if (!checkDataScale(args[2])) {
+        if (!checkDataScale(params[2])) {
             logger.warning("输入的数据集规模错误，当前支持的数据集规模有：" + Arrays.toString(DataScaleUtil.DATA_SCALE));
             return false;
         }
-        if (!checkStartDate(args[3])) {
+        if (!checkStartDate(params[3])) {
             logger.warning("输入的起始日期格式错误，请以 ”1999-01-31“ 的格式输入起始日期");
             return false;
         }
-        if (!checkDaysQuantity(args[4])) {
+        if (!checkDaysQuantity(params[4])) {
             logger.warning("输入的生成数据集天数错误，正确范围是 [2 - 2,147,483,647]");
             return false;
         }
@@ -94,11 +94,11 @@ public class ArgsUtil {
     }
 
 
-    public static Boolean appStartLogCheckArgs(String[] args) {
+    public static Boolean appStartLogCheckArgs() {
 //        System.out.println(Arrays.toString(args));
 
         // 检查参数数量
-        if (args.length != 5) {
+        if (params.length != 5) {
             logger.warning("输入的参数数量不正确，AppStartLog 数据集类型需要 5 个参数："
                     + "\n\t ”输出路径“ "
                     + "\n\t ”生成数据集类型“ ：AppStartLog"
@@ -111,15 +111,15 @@ public class ArgsUtil {
         }
 
 
-        if (!checkDataScale(args[2])) {
+        if (!checkDataScale(params[2])) {
             logger.warning("输入的数据集规模错误，当前支持的数据集规模有：" + Arrays.toString(DataScaleUtil.DATA_SCALE));
             return false;
         }
-        if (!checkStartDate(args[3])) {
+        if (!checkStartDate(params[3])) {
             logger.warning("输入的起始日期格式错误，请以 ”1999-01-31“ 的格式输入起始日期");
             return false;
         }
-        if (!checkDaysQuantity(args[4])) {
+        if (!checkDaysQuantity(params[4])) {
             logger.warning("输入的生成数据集天数错误，正确范围是 [2 - 2,147,483,647]");
             return false;
         }
