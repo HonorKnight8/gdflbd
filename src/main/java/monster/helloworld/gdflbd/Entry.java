@@ -50,7 +50,7 @@ public class Entry {
                 Object object = constructor.newInstance();
                 Method generate = dataTypeClass.getMethod("generate", String[].class);
                 generate.invoke(object, (Object) args);
-                System.out.println(dataTypeClass.getName() + "完成任务");
+//                System.out.println(dataTypeClass.getName() + "完成任务");
             } catch (ClassNotFoundException | InvocationTargetException | NoSuchMethodException | IllegalAccessException | InstantiationException e) {
                 logger.severe("！！！创建数据集类型对象出错！");
                 e.printStackTrace();

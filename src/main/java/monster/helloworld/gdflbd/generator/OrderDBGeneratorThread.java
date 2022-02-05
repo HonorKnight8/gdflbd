@@ -11,23 +11,26 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Logger;
 
 public class OrderDBGeneratorThread implements Runnable {
-    private final Logger logger = Logger.getLogger(this.getClass().getName());
-    private static final Random random = new Random();
-    private OrderDao orderDao = new OrderDaoImpl();
 
+    // 构造方法要用到的几个属性（启动线程必须的几个参数）
     private Integer startOrderID;
     private Integer endOrderID;
     private Long startTimeStamp;
     private Long allEndTimeStamp;
 
-    private final ReentrantLock reentrantLock = new ReentrantLock();  // 用于线程同步锁
+    // 线程内部使用的
+    private final Logger logger = Logger.getLogger(this.getClass().getName());
+    private final Random random = new Random();
+    private OrderDao orderDao = new OrderDaoImpl();
+    private final ReentrantLock reentrantLock = new ReentrantLock();    // 用于线程同步锁
+    private Map<String, Boolean> resultMap = new TreeMap<>();           // 结果集，只存放进行中的订单
 
-    // 每个线程完成所有新建任务后，设置标记，主线程获取到这个标记为true，才开启下一个线程
+    // 主线程需要读取的
     private boolean completeCreateNewOrderFlag = false;                 // 记录本线程是否已完成了全部新订单创建任务的标记（不管是否完成了订单推进的任务）
+    ;                                                                   // 主线程获取到这个标记为true，才开启下一个线程
     public static Stack<Long> lastNewOrderTimeStamp = new Stack<>();    // 记录最后一个新建 order 的时间戳，用于给下一个线程提供开始时间
-    public static Stack<Long> lastOperateTimeStamp = new Stack<>();     // 记录线程结束时最后一次操作 order 的时间戳，用于给主线程判断是不是要再开启一个线程
+    public static Stack<Long> lastOperateTimeStamp = new Stack<>();     // 记录线程结束时最后一次操作 order 的时间戳，用于给主线程判断是否需要再开启一个线程
     public static ArrayList<String> finishedThread = new ArrayList<>(); // 记录已完成任务的线程
-    private Map<String, Boolean> resultMap = new TreeMap<>();           // 结果集，记录进行中的订单
 
     public boolean getCompleteCreateNewOrderFlag() {
         return completeCreateNewOrderFlag;
@@ -42,12 +45,12 @@ public class OrderDBGeneratorThread implements Runnable {
 
     @Override
     public void run() {
-        Thread thread = Thread.currentThread(); // 本线程对象，用于控制台输出提示信息
+        Thread thread = Thread.currentThread();     // 本线程对象，用于控制台输出提示信息
         logger.info("___线程：“" + thread.getName() + "” 开始工作...");
 
         int currentID = startOrderID;
         Long currentTimeStamp = startTimeStamp;
-        int stepIntervalProportion = DataScaleUtil.stepOn(ArgsUtil.params[2].toLowerCase()); // 步进比例，不同数据集规模不同比例
+        int stepIntervalProportion = DataScaleUtil.stepOn(ArgsUtil.params[2].toLowerCase()); // 步进比例，数据集规模不同则比例不同
 
         do {
             Order order;
@@ -102,11 +105,10 @@ public class OrderDBGeneratorThread implements Runnable {
 
             // 设置完成新订单创建任务的标记
             if ((!completeCreateNewOrderFlag) && currentID > endOrderID) {
-                completeCreateNewOrderFlag = true;              // 记录本线程是否已完成了全部新订单创建任务的标记（不管是否完成了订单推进的任务）
+                completeCreateNewOrderFlag = true;                  // 记录本线程是否已完成了全部新订单创建任务的标记（不管是否完成了订单推进的任务）
                 reentrantLock.lock();
                 try {
-
-                    lastNewOrderTimeStamp.push(currentTimeStamp);   // 记录最后一个新建 order 的时间戳，用于给下一个线程提供开始时间
+                    lastNewOrderTimeStamp.push(currentTimeStamp);   // 记录最后一个新建 order 的时间，用于给下一个线程提供开始时间
                 } catch (Exception e) {
                     e.printStackTrace();
                 } finally {
@@ -133,7 +135,7 @@ public class OrderDBGeneratorThread implements Runnable {
         } while (currentTimeStamp < allEndTimeStamp
                 && (currentID <= endOrderID || resultMap.containsValue(false)));
 
-        completeCreateNewOrderFlag = true; // 最后也要把这个标志置为 true ，否则遇到时间结束了，还没跑完新建账单的部分，会导致主线程死循环
+        completeCreateNewOrderFlag = true;  // 最后(退出循环后)也要把这个标志置为 true 。否则遇到时间结束了，还没跑完新建部分的任务，会导致主线程死循环
 
         reentrantLock.lock();
         try {

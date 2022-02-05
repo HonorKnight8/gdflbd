@@ -4,8 +4,10 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import java.sql.*;
+import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.Random;
 
 
 import com.alibaba.fastjson.JSON;
@@ -69,6 +71,15 @@ public class testClass {
 //        System.out.println(AppStartLog.getLogMessage(1595309484329L, 10000, false));
     }
 
+
+    @Test
+    public void test3() {
+        Random random = new Random();
+        double randomAmount=Math.random()*10 + random.nextInt(100_000);
+        DecimalFormat decimalFormat = new DecimalFormat( "0.00" );
+        System.out.println(randomAmount);
+        System.out.println(decimalFormat.format(randomAmount));
+    }
 
     @Test
     public void test2() {

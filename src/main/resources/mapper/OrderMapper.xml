@@ -24,7 +24,7 @@
             -- 偶数是取消或退货（对应下面的无效订单），17 是最终完成的订单，其他是执行中的订单
             `orderStatus` tinyint(4) NOT NULL DEFAULT 0 , -- 订单状态，0:执行中（有效），1:完成（有效）,2:取消或退货（无效）
             `createTime` varchar(25) NOT NULL, -- 下单时间
-            `payTime` varchar(25) DEFAULT '0000-00-00 00:00:00:000' NOT NULL, -- 支付时间
+            `payTime` varchar(25), -- 支付时间
             `modifiedTime` varchar(25) DEFAULT '0000-00-00 00:00:00:000' NOT NULL -- 订单更新时间
         );
     </update>
@@ -59,13 +59,12 @@
         LIMIT 1;
     </select>
 
+    <!-- 获取指定账单的最新记录 -->
     <select id="selectByOrderId" resultType="Order">
         SELECT * FROM orders
         where orderId = #{orderId}
         ORDER BY modifiedTime DESC
         LIMIT 1;
     </select>
-
-
 
 </mapper>

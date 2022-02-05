@@ -49,7 +49,8 @@ public class OrderLifeCycleSimulator {
 //        System.out.println(createTime);
         String dateTimeStr = DateTimeUtil.timeStampToStr_1(createTime);
         order.setCreateTime(dateTimeStr); // 新建订单，使用传入的时间戳作为创建订单的时间
-        order.setPayTime("0000-00-00 00:00:00:000"); // 新建订单，未支付，固定值 "0000-00-00 00:00:000"
+//        order.setPayTime("0000-00-00 00:00:00:000"); // 新建订单，未支付，固定值 "0000-00-00 00:00:000"
+        order.setPayTime(null); // 新建订单，未支付，固定值 "0000-00-00 00:00:000"
         order.setModifiedTime(dateTimeStr); // 新建订单，与 createTime 相同
 
         return order;
@@ -123,9 +124,13 @@ public class OrderLifeCycleSimulator {
         if ((newLifeCycle % 2) == 0) {
             // 偶数是取消或退货（无效订单）
             order.setOrderStatus(2);
+            if(order.getPayStatus()==1){
+                order.setPayStatus(2);  // 如果已支付，置为已退款
+            }
         } else if (newLifeCycle == 5) {
             // 已支付的订单
             order.setPayTime(dateTimeStr);
+            order.setPayStatus(1);      // 置为已支付
         } else if (newLifeCycle == 17) {
             // 最终完成的订单（有效）
             order.setOrderStatus(1);
@@ -144,7 +149,8 @@ public class OrderLifeCycleSimulator {
 
     private static Float getTotalMoney() {
         // 应该从 订单-商品表（含商品、商家优惠信息） 和 bill表（含平台活动优惠信息）中获取，暂且使用随机数模拟
-        return (random.nextInt(99) + 1) / 100.00F + random.nextInt(1_000_000_000);
+        Double randomAmount = Math.random() * 10 + random.nextInt(100_000);
+        return randomAmount.floatValue();
     }
 
     private static Integer getAreaId() {
